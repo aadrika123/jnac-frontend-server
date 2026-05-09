@@ -25,12 +25,15 @@ app.get('/', (_req, res) => {
   res.redirect(302, '/survey-app/');
 });
 
-// Serve static files (JS / CSS / images / fonts referenced as /assets/...)
-// from EVERY build directory. Express picks the first matching file.
-// Content-hashed filenames keep collisions extremely unlikely.
-for (const buildDir of Object.values(routes)) {
+// Serve static files (JS / CSS / images / fonts) from EVERY build directory.
+// Mount each build at BOTH the root (for Vite builds with base="/" referencing
+// /assets/...) AND at its route prefix (for CRA builds with PUBLIC_URL=/<prefix>
+// referencing /<prefix>/static/...). express.static returns next() on miss so
+// fall-through is safe.
+for (const [route, buildDir] of Object.entries(routes)) {
   const buildPath = path.join(BUILDS_DIR, buildDir);
   if (fs.existsSync(buildPath)) {
+    app.use(route, express.static(buildPath));
     app.use(express.static(buildPath));
   }
 }
