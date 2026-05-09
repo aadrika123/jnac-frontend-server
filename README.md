@@ -2,20 +2,21 @@
 
 Tiny Express server (port **3501**) serving multiple JNAC SPAs (survey-frontend, swm-mobile, …) from `/opt/frontend_builds/` on:
 
-| Branch    | Server                       | Domain                                       |
-|-----------|------------------------------|----------------------------------------------|
-| `staging` | `aadrika@172.18.1.52`        | `staging-jnac.jharkhandegovernance.com`      |
-| `main`    | `akola_production@172.18.1.51` | `jnac.jharkhandegovernance.com`            |
+| Branch    | Server                         | Domain                                  |
+| --------- | ------------------------------ | --------------------------------------- |
+| `staging` | `aadrika@172.18.1.52`          | `staging-jnac.jharkhandegovernance.com` |
+| `main`    | `akola_production@172.18.1.51` | `jnac.jharkhandegovernance.com`         |
 
 ## Routes (see [`routes.json`](./routes.json))
 
-| URL prefix          | Build directory          | Source repo                              |
-|---------------------|--------------------------|------------------------------------------|
+| URL prefix          | Build directory                 | Source repo                        |
+| ------------------- | ------------------------------- | ---------------------------------- |
 | `/`                 | (302 redirect → `/survey-app/`) | —                                  |
-| `/survey-app/*`     | `jnac_survey_build/`     | `aadrika123/j-nac-survey-frontend`       |
-| `/juidco-swm-app/*` | `jnac_swm_app_build/`    | `aadrika123/j-nac-swm-mobile`            |
+| `/survey-app/*`     | `jnac_survey_build/`            | `aadrika123/j-nac-survey-frontend` |
+| `/juidco-swm-app/*` | `jnac_swm_app_build/`           | `aadrika123/j-nac-swm-mobile`      |
+| `/jnac-swm-app/*`   | `jnac_swm_app_build/` (alias)   | `aadrika123/j-nac-swm-mobile`      |
 
-> Note: `j-nac-swm-mobile` is exposed at `/juidco-swm-app/` (not `/jnac-swm-app/`) because its 56 hardcoded route paths in `src/` use the `/juidco-swm-app/` prefix. Switching to `/jnac-swm-app/` requires a code-side refactor in that repo (KNOWN_BUG).
+> Note: `j-nac-swm-mobile`'s `src/` has 56 hardcoded `/juidco-swm-app/` route paths. We expose the same build under both `/juidco-swm-app/` (legacy) and `/jnac-swm-app/` (preferred, JNAC branding) — assets are root-relative (`/assets/*`) so both prefixes load the SPA correctly. A code-side refactor to flip the canonical basename is tracked in KNOWN_BUGS.
 
 ## How a build lands here
 

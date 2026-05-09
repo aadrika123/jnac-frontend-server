@@ -1,4 +1,5 @@
 {
   "/survey-app": "jnac_survey_build",
-  "/juidco-swm-app": "jnac_swm_app_build"
+  "/juidco-swm-app": "jnac_swm_app_build",
+  "/jnac-swm-app": "jnac_swm_app_build"
 }
